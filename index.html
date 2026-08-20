@@ -718,8 +718,13 @@
         body: new FormData(form)
       }).then(function (res) { return res.json(); }).then(function (json) {
         if (!json.success) throw new Error("rejected");
-        form.style.display = "none";
+                form.style.display = "none";
         ok.style.display = "block";
+        if (typeof gtag === "function") {
+          gtag("event", "generate_lead", {
+            monthly_spend: form.querySelector("#f-spend").value
+          });
+        }
       }).catch(function () {
         btn.disabled = false;
         btn.textContent = "Request the diagnostic";
